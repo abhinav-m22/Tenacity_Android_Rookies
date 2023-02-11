@@ -5,6 +5,7 @@ import 'package:free_eats/screens/auth_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum Auth { provider, admin, customer }
 
@@ -26,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
     return Material(
       child: SingleChildScrollView(
         child: Container(
@@ -147,6 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomButton(
                             text: "Sign Up",
                             onTap: () {
+                              users.add({'name': _nameController.text, 'email': _emailController.text, 'password': _passwordController.text,'type':'customer'}).then((value) => print('User added'));
                               FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                       email: _emailController.text,

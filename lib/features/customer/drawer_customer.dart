@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:free_eats/common/profile_page.dart';
 import 'package:free_eats/screens/auth_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 class CustomDrawer extends StatelessWidget {
@@ -60,7 +61,12 @@ class CustomDrawer extends StatelessWidget {
             ),
             Container(height: 50),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfilePage()));
+              },
               child: Text("Profile",
                   style: GoogleFonts.oswald(
                       fontSize: 23,
@@ -68,7 +74,9 @@ class CustomDrawer extends StatelessWidget {
                       color: Colors.black)),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                
+              },
               child: Text("Reviews",
                   style: GoogleFonts.oswald(
                       fontSize: 23,
