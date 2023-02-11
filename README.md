@@ -1,4 +1,4 @@
-# free_eats
+# <App-Name>
 
 A new Flutter project.
 
