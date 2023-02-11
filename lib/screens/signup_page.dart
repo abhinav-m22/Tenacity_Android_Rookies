@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:free_eats/constants/global_variables.dart';
+import 'package:free_eats/features/customer/user_homepage.dart';
 import 'package:free_eats/screens/auth_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 enum Auth { provider, admin, customer }
 
@@ -15,13 +17,12 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   Auth _auth = Auth.customer;
-  
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _orgController = TextEditingController();
   final TextEditingController _uidController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +46,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AuthScreen()),
-                      );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AuthScreen()),
+                          );
                         },
                         child: const Text(
                           "Sign In",
@@ -82,8 +83,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   leading: Radio(
                     activeColor: GlobalVariables.secondaryColor,
-                    value:  Auth.customer,
-                    groupValue:_auth,
+                    value: Auth.customer,
+                    groupValue: _auth,
                     onChanged: (Auth? val) {
                       setState(() {
                         _auth = val!;
@@ -143,7 +144,23 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        CustomButton(text: "Sign Up", onTap: () {})
+                        CustomButton(
+                            text: "Sign Up",
+                            onTap: () {
+                              FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text)
+                                  .then((value) {
+                                print("Created New Account");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CustomerPage()));
+                              }).onError((error, stackTrace) {
+                                print("Error ${error.toString()}");
+                              });
+                            })
                       ]),
                     ),
                   ),
@@ -154,7 +171,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       // key: _signInFormKey,
                       child: Column(children: [
                         CustomTextField(
-                            controller: _emailController, hintText: "Email"),
+                            controller: _nameController, hintText: "Name"),
                         const SizedBox(
                           height: 15,
                         ),
