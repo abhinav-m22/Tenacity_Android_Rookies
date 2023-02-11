@@ -19,6 +19,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   Auth _auth = Auth.customer;
 
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -28,6 +29,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference providers =
+        FirebaseFirestore.instance.collection('providers');
+
     return Material(
       child: SingleChildScrollView(
         child: Container(
@@ -149,7 +153,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomButton(
                             text: "Sign Up",
                             onTap: () {
-                              users.add({'name': _nameController.text, 'email': _emailController.text, 'password': _passwordController.text,'type':'customer'}).then((value) => print('User added'));
+                              users.add({
+                                'name': _nameController.text,
+                                'email': _emailController.text,
+                                'password': _passwordController.text
+                              }).then((value) => print('User added'));
                               FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                       email: _emailController.text,
@@ -229,7 +237,17 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        CustomButton(text: "Sign Up", onTap: () {})
+                        CustomButton(
+                            text: "Sign Up",
+                            onTap: () {
+                              providers.add({
+                                'name': _nameController.text,
+                                'email': _emailController.text,
+                                'password': _passwordController.text,
+                                'organisation': _orgController.text,
+                                'UID': _uidController.text
+                              }).then((value) => print('Providers added'));
+                            })
                       ]),
                     ),
                   ),
@@ -238,4 +256,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
+  void saveCustomer() {}
 }
