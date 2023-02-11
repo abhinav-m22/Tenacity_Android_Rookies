@@ -15,12 +15,31 @@ class CustomerPage extends StatefulWidget {
 
 class _CustomerPageState extends State<CustomerPage> {
   final TextEditingController _searchController = TextEditingController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70),
           child: AppBar(
+            leading: IconButton(icon:Icon(Icons.sort_outlined,color: Colors.amber),
+            onPressed: () {
+                if (scaffoldKey.currentState!.isDrawerOpen) {
+                  scaffoldKey.currentState!.closeDrawer();
+                  //close drawer, if drawer is open
+                } else {
+                  scaffoldKey.currentState!.openDrawer();
+                  //open drawer, if drawer is closed
+                }
+              },
+            ),
+            // iconTheme: const IconThemeData(
+            //   color: Colors.amber,
+              
+            // ),
+            
             elevation: 0,
             flexibleSpace: Container(
               // padding: const EdgeInsets.only(top:50),
@@ -67,7 +86,7 @@ class _CustomerPageState extends State<CustomerPage> {
               ),
             ),
           )),
-      drawer: CustomDrawer(),
+      drawer: Drawer(child: CustomDrawer()),
       body: Container(
         height: double.maxFinite,
         width: double.maxFinite,
