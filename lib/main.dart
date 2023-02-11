@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:free_eats/features/admin/admin_homepage.dart';
 import 'package:free_eats/features/customer/provider_food_profile.dart';
 import 'package:free_eats/features/customer/user_homepage.dart';
 import 'package:free_eats/screens/auth_screen.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
-      home:CustomerPage()
+      debugShowCheckedModeBanner: false,
+      home:AdminPage()
     );
   }
 }

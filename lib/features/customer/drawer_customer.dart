@@ -1,5 +1,6 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:free_eats/screens/auth_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -29,11 +30,12 @@ class CustomDrawer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("App Name",
-                        style: GoogleFonts.oswald(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.orange)),
+                    Container(
+                          width: 160,
+                          height: 45,
+                          child: Image.asset('assets/images/logo2.png'),
+                          // padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                        ),
                     Container(height: 60),
                     // Text("Donate",
                     //     style: GoogleFonts.oswald(
@@ -91,7 +93,15 @@ class CustomDrawer extends StatelessWidget {
                       color: Colors.black)),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                FirebaseAuth.instance.signOut()
+                          .then((value) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AuthScreen()));
+                      }).onError((error, stackTrace)  {print("${error.toString()}");});
+              },
               child: Text("Log Out",
                   style: GoogleFonts.oswald(
                       fontSize: 25,

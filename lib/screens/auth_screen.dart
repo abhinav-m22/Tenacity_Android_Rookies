@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:free_eats/constants/global_variables.dart';
 import 'package:free_eats/screens/signup_page.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../common/custom_button.dart';
 import '../common/custom_textfield.dart';
+import '../features/customer/user_homepage.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -28,7 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
         //   ),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(
-            
+
               // width: MediaQuery.of(context).size.width*0.7,
               // height: MediaQuery.of(context).size.height*0.7,
               child: Image.asset("assets/images/sign.png")),
@@ -36,40 +37,39 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                      padding: const EdgeInsets.only(left: 70),
-                      child: ElevatedButton(
-                        onPressed: () {
-                        },
-                        child: const Text(
-                          "Sign In",
-                          style: TextStyle(color: Colors.amber),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(right: 70),
-                      child: ElevatedButton(
-                        onPressed: () {
-                           Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpPage()),
-                      );
-                        },
-                        child: const Text(
-                          "Sign Up",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          elevation: 0,
-                        ),
-                      ),
-                    ),
+                padding: const EdgeInsets.only(left: 70),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Sign In",
+                    style: TextStyle(color: Colors.amber),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(right: 70),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpPage()),
+                    );
+                  },
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                  ),
+                ),
+              ),
             ],
           ),
           Padding(
@@ -87,7 +87,20 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(
                   height: 18,
                 ),
-                CustomButton(text: "Sign In", onTap: () {})
+                CustomButton(
+                    text: "Sign In",
+                    onTap: () {
+                      FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text)
+                          .then((value) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomerPage()));
+                      }).onError((error, stackTrace)  {print("${error.toString()}");});
+                    })
               ]),
             ),
           ),
