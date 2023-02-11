@@ -19,8 +19,7 @@ class FoodItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
             )),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ListItemPage()));
+          
         },
         child: Container(
             decoration: BoxDecoration(
@@ -62,7 +61,6 @@ class FoodItem extends StatelessWidget {
                       // padding: const EdgeInsets.only(right:10),
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.height * 0.08,
-
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -83,10 +81,13 @@ class FoodItem extends StatelessWidget {
                                 ],
                               ),
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.amber,
+                                
+                                ),
                                 onPressed: () {},
                                 child: Text('Get',
                                     style: GoogleFonts.oswald(
-                                        color: Colors.black, fontSize: 15)),
+                                        color: Colors.white, fontSize: 15)),
                               )
                             ],
                           ),
