@@ -1,9 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:free_eats/features/customer/provider_food_profile.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ListCard extends StatelessWidget {
-  const ListCard({
+class FoodItem extends StatelessWidget {
+  const FoodItem({
     Key? key,
   }) : super(key: key);
 
@@ -17,12 +19,12 @@ class ListCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
             )),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>ListItemPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ListItemPage()));
         },
         child: Container(
-
             decoration: BoxDecoration(
-              // boxShadow: [BoxShadow(blurRadius: 1,blurStyle: BlurStyle.outer)],
+                // boxShadow: [BoxShadow(blurRadius: 1,blurStyle: BlurStyle.outer)],
                 border: Border.all(color: Colors.amber),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width * 1,
@@ -32,7 +34,8 @@ class ListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left:8.0,top:8,bottom:8,right:15),
+                  padding: const EdgeInsets.only(
+                      left: 8.0, top: 8, bottom: 8, right: 15),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
@@ -48,32 +51,43 @@ class ListCard extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.only(top: 8.0),
-                      width: MediaQuery.of(context).size.width*0.5,
-                      child: Text('Restaurant Name is given here',
-                      overflow: TextOverflow.ellipsis,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text('Food Name',
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.oswald(
                               color: Colors.black, fontSize: 18)),
                     ),
                     Container(
                       // color: Colors.amber,
                       // padding: const EdgeInsets.only(right:10),
-                      width: MediaQuery.of(context).size.width*0.5,
-                      height:MediaQuery.of(context).size.height*0.08,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.08,
 
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('This is description of the restaurant',
-                          overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.oswald(
-                                  color: Colors.black, fontSize: 15)),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(Icons.location_on_outlined, color: Colors.amber,),
-                              Text('3 km away',
-                              overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.oswald(
-                                      color: Colors.black, fontSize: 15)),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.shopping_basket_outlined,
+                                    color: Colors.amber,
+                                  ),
+                                  SizedBox(width: 2,),
+                                  Text('10',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.oswald(
+                                          color: Colors.black, fontSize: 15)),
+                                ],
+                              ),
+                              ElevatedButton(
+                                onPressed: () {},
+                                child: Text('Get',
+                                    style: GoogleFonts.oswald(
+                                        color: Colors.black, fontSize: 15)),
+                              )
                             ],
                           ),
                         ],

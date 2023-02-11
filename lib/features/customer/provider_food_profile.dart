@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:free_eats/common/custom_textfield.dart';
 import 'package:free_eats/features/customer/custom_food.dart';
-import 'package:free_eats/features/customer/drawer_customer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../common/custom_tile.dart';
-import '../../constants/global_variables.dart';
+import 'drawer_customer.dart';
 
-class CustomerPage extends StatefulWidget {
-  const CustomerPage({super.key});
+class ListItemPage extends StatefulWidget {
+  const ListItemPage({super.key});
 
   @override
-  State<CustomerPage> createState() => _CustomerPageState();
+  State<ListItemPage> createState() => _ListItemPageState();
 }
 
-class _CustomerPageState extends State<CustomerPage> {
-  final TextEditingController _searchController = TextEditingController();
+class _ListItemPageState extends State<ListItemPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,15 +72,16 @@ class _CustomerPageState extends State<CustomerPage> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.amber),
+                                  shape: BoxShape.circle,
+                                  // color:Colors.amber
+                                ),
                                 child: Padding(
                                     padding: const EdgeInsets.only(right: 0),
                                     child: IconButton(
                                         onPressed: () {},
                                         icon: Icon(
-                                          Icons.manage_history_outlined,
-                                          color: Colors.white,
+                                          Icons.arrow_back_ios_new_outlined,
+                                          color: Colors.amber,
                                           size: 27,
                                         ))),
                               ),
@@ -101,54 +98,82 @@ class _CustomerPageState extends State<CustomerPage> {
             ),
           )),
       drawer: Drawer(child: CustomDrawer()),
-      body: Container(
-        height: double.maxFinite,
-        width: double.maxFinite,
-        color: Colors.white,
-        child: SingleChildScrollView(
-          child: Column(children: <Widget>[
-            SizedBox(
-              height: 18,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 30, bottom: 15, left: 20, right: 20),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.amber,
-                    ),
-                    // suffixIcon: Icon(
-                    //   Icons.close,
-                    //   color: Colors.amber,
-                    // ),
-                    filled: true,
-                    // hoverColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none),
-                    hintText: "Search ",
-                    hintStyle: GoogleFonts.oswald()),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+      body: Column(
+        children: [
+          Container(
+            // color: Colors.blueGrey,
+            padding: const EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.2,
+            // color: Colors.amber,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      // color: Colors.amber,
+                      child: Text('Restaurant Name',
+                          overflow: TextOverflow.clip,
+                          style: GoogleFonts.oswald(
+                              color: Colors.black,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w300)),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      // color: Colors.red,
+                      child: Text('This is description of the restaurant',
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.oswald(
+                              color: Colors.black, fontSize: 15)),
+                    ),
+                  ],
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 15, bottom: 15, right: 15, left: 25),
-                  child: Text('Available Nearby',
-                      // overflow: TextOverflow.clip,
-                      style: GoogleFonts.oswald(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w300)),
+                  padding: const EdgeInsets.only(top: 15, right: 20),
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/a.avif"),
+                    radius: 40,
+                  ),
                 ),
               ],
             ),
-            ListView.builder(
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  // padding: const EdgeInsets.only(left),
+                  margin: const EdgeInsets.only(left: 100,right:100),
+                  height: 40,
+                  // width: MediaQuery.of(context).size.width*0.3,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 0.0),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.amber
+                      ),
+                  child: OutlinedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        primary: Colors.black12.withOpacity(0.03)),
+                    onPressed: () {},
+                    child: Text('Donate',
+                          // overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.oswald(
+                              color: Colors.white, fontSize: 20)),
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 50,),
+          ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -156,20 +181,11 @@ class _CustomerPageState extends State<CustomerPage> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListCard(),
+                    child: FoodItem(),
                   );
-                  // Card(
-                  //     child: ListTile(
-                  //   title: Text("Drugs"),
-                  //   subtitle: Text("Do It"),
-                  //   // leading: Image.asset('assets/images/logo.png',height: 10,width: 10,),
-                  //   trailing: Icon(Icons.arrow_forward_rounded),
-                  //   onTap: () {},
-                  // )
-                  // );
-                })
-          ]),
-        ),
+                 }),
+          
+        ],
       ),
     );
   }
