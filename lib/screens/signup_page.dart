@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:free_eats/constants/global_variables.dart';
+import 'package:free_eats/features/admin/admin_homepage.dart';
 import 'package:free_eats/features/customer/user_homepage.dart';
+import 'package:free_eats/features/provider/provider_homepage.dart';
 import 'package:free_eats/screens/auth_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_textfield.dart';
@@ -197,7 +199,29 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        CustomButton(text: "Sign Up", onTap: () {})
+                        CustomButton(
+                            text: "Sign Up",
+                            onTap: () {
+                              users.add({
+                                'name': _nameController.text,
+                                'email': _emailController.text,
+                                'password': _passwordController.text,
+                                'type': "Admin"
+                              }).then((value) => print('Admin added'));
+                              FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text)
+                                  .then((value) {
+                                print("Created New Account");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AdminPage()));
+                              }).onError((error, stackTrace) {
+                                print("Error ${error.toString()}");
+                              });
+                            })
                       ]),
                     ),
                   ),
@@ -240,13 +264,27 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomButton(
                             text: "Sign Up",
                             onTap: () {
-                              providers.add({
+                              users.add({
                                 'name': _nameController.text,
                                 'email': _emailController.text,
                                 'password': _passwordController.text,
-                                'organisation': _orgController.text,
-                                'UID': _uidController.text
-                              }).then((value) => print('Providers added'));
+                                'Organisation name': _orgController.text,
+                                "UID no": _uidController,
+                                'type': "Provider"
+                              }).then((value) => print('provider added'));
+                              FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text)
+                                  .then((value) {
+                                print("Created New Account");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProviderPage()));
+                              }).onError((error, stackTrace) {
+                                print("Error ${error.toString()}");
+                              });
                             })
                       ]),
                     ),
